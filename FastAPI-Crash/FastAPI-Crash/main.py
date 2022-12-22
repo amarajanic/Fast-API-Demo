@@ -15,7 +15,6 @@ user.Base.metadata.create_all(bind=engine)
 course.Base.metadata.create_all(bind=engine)
 
 
-
 app = FastAPI(
     title="Fast API TEST",
     description="API for fastapi demo",
@@ -43,7 +42,7 @@ app.include_router(file.router)
 app.include_router(users.router)
 app.include_router(sections.router)
 app.include_router(courses.router)
-#app.include_router(template.router)
+# app.include_router(template.router)
 
 origins = {
     'example_app_or_page'
@@ -57,9 +56,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.mount('/files', StaticFiles(directory="files"), name='files')
+app.mount('/files', StaticFiles(directory="/files"), name='files')
 
 
 if __name__ == '__main__':
     uvicorn.run(app, host="127.0.0.1", port=58192)
-

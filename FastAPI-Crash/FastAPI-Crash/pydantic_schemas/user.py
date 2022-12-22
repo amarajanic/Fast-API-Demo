@@ -7,14 +7,14 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-      ...
-     #password: str
+    ...
+   #password: str
 
 
 class User(UserBase):
     id: int
     is_active: bool
-
+    password: str
 
     class Config:
         orm_mode = True
