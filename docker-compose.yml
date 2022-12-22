@@ -1,0 +1,39 @@
+version: '3'
+services:
+  db:
+    image: postgres:11.12
+    volumes:
+      - dev-db-data:/data/db:/var/lib/postgresql/data
+    command: -p 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    container_name: db_container
+    ports:
+      - "127.0.0.1:5431:5432"
+    networks:
+      - demo-api-network
+  web:
+    build: ./
+    volumes:
+      - ./:/usr/src/app
+      - dev-static-data:/files
+    command: bash -c "uvicorn main:app --host=0.0.0.0 --port=${PORT:-8000} --reload"
+    container_name: web_container
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+    networks:
+      - demo-api-network
+
+networks:
+  demo-api-network:
+    driver: bridge
+
+volumes:
+  dev-db-data:
+  dev-static-data:
